@@ -37,7 +37,8 @@ void exit_usage(char *self_name) {
 		"  -f target framerate (default: 60)\n"
 		"  -p port (default: 8080)\n"
 		"  -c crop area in the captured window as X,Y,W,H. E.g.: -c 200,300,640,480\n"
-		"  -i enable/disable remote input. E.g. -i 0 (default: 1)\n\n"
+		"  -i enable/disable remote input. E.g. -i 0 (default: 1)\n"
+		"  -o use ssl. E.g. -o 1 (default: 0)\n\n"
 
 		"Use \"desktop\" as the window name to capture the whole Desktop. Use \"cursor\"\n"
 		"to capture the window at the current cursor position.\n\n"
@@ -58,6 +59,7 @@ int main(int argc, char* argv[]) {
 	int bit_rate = 0,
 		fps = 60,
 		port = 8080,
+		use_ssl = 0,
 		width = 0,
 		height = 0,
 		allow_input = 1;
@@ -77,6 +79,7 @@ int main(int argc, char* argv[]) {
 			case 'f': fps = atoi(argv[i+1]); break;
 			case 'i': allow_input = atoi(argv[i+1]); break;
 			case 'c': sscanf(argv[i+1], "%d,%d,%d,%d", &crop.x, &crop.y, &crop.width, &crop.height); break;
+			case 'o': use_ssl = 1; break;
 			default: exit_usage(argv[0]);
 		}
 	}
@@ -102,7 +105,7 @@ int main(int argc, char* argv[]) {
 	}
 
 	// Start the app
-	app_t *app = app_create(window, port, bit_rate, width, height, allow_input, crop);
+	app_t *app = app_create(window, port, bit_rate, width, height, allow_input, crop, use_ssl);
 
 	if( !app ) {
 		return 1;

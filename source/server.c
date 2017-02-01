@@ -35,7 +35,7 @@ static struct libwebsocket_protocols server_protocols[] = {
 	{ NULL, NULL, 0 /* End of list */ }
 };
 
-server_t *server_create(int port, size_t buffer_size) {
+server_t *server_create(int port, size_t buffer_size, int use_ssl) {
 	server_t *self = (server_t *)malloc(sizeof(server_t));
 	memset(self, 0, sizeof(server_t));
 	
@@ -55,6 +55,26 @@ server_t *server_create(int port, size_t buffer_size) {
 	info.uid = -1;
 	info.user = (void *)self;
 	info.protocols = server_protocols;
+	info.ssl_cert_filepath = NULL;
+	info.ssl_private_key_filepath = NULL;
+	if (use_ssl) {
+		info.ssl_cert_filepath = "jsmpeg-vnc.pem";
+		info.ssl_private_key_filepath = "jsmpeg-vnc.key.pem";
+		//info.ssl_ca_filepath = "jsmpeg-vnc.crt";
+	}
+	info.ssl_cipher_list = "ECDHE-ECDSA-AES256-GCM-SHA384:"
+			       "ECDHE-RSA-AES256-GCM-SHA384:"
+			       "DHE-RSA-AES256-GCM-SHA384:"
+			       "ECDHE-RSA-AES256-SHA384:"
+			       "HIGH:!aNULL:!eNULL:!EXPORT:"
+			       "!DES:!MD5:!PSK:!RC4:!HMAC_SHA1:"
+			       "!SHA1:!DHE-RSA-AES128-GCM-SHA256:"
+			       "!DHE-RSA-AES128-SHA256:"
+			       "!AES128-GCM-SHA256:"
+			       "!AES128-SHA256:"
+			       "!DHE-RSA-AES256-SHA256:"
+			       "!AES256-GCM-SHA384:"
+			       "!AES256-SHA256";
 	self->context = libwebsocket_create_context(&info);
 
 	if( !self->context ) {

@@ -34,7 +34,7 @@ typedef struct server_t {
 } server_t;
 
 
-server_t *server_create(int port, size_t buffer_size);
+server_t *server_create(int port, size_t buffer_size, int use_ssl);
 void server_destroy(server_t *self);
 char *server_get_host_address(server_t *self);
 char *server_get_client_address(server_t *self, libwebsocket *wsi);

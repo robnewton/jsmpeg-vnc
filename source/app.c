@@ -67,7 +67,7 @@ void on_close(server_t *server, libwebsocket *socket) { app_on_close((app_t *)se
 
 
 
-app_t *app_create(HWND window, int port, int bit_rate, int out_width, int out_height, int allow_input, grabber_crop_area_t crop) {
+app_t *app_create(HWND window, int port, int bit_rate, int out_width, int out_height, int allow_input, grabber_crop_area_t crop, int use_ssl) {
 	app_t *self = (app_t *)malloc(sizeof(app_t));
 	memset(self, 0, sizeof(app_t));
 
@@ -85,7 +85,7 @@ app_t *app_create(HWND window, int port, int bit_rate, int out_width, int out_he
 		bit_rate
 	);
 	
-	self->server = server_create(port, APP_FRAME_BUFFER_SIZE);
+	self->server = server_create(port, APP_FRAME_BUFFER_SIZE, use_ssl);
 	if( !self->server ) {
 		printf("Error: could not create Server; try using another port\n");
 		return NULL;
