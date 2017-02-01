@@ -316,6 +316,9 @@
     <ClInclude Include="..\source\timer.h">
       <Filter>source</Filter>
     </ClInclude>
+    <ClInclude Include="..\source\libwebsocket\lws_config.h">
+      <Filter>source\libwebsockets</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Library Include="..\source\libwebsocket\websockets_static.lib">

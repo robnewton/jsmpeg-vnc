@@ -59,10 +59,10 @@ int main(int argc, char* argv[]) {
 	int bit_rate = 0,
 		fps = 60,
 		port = 8080,
-		use_ssl = 0,
 		width = 0,
 		height = 0,
-		allow_input = 1;
+		allow_input = 1,
+		use_ssl = 0;
 	
 	grabber_crop_area_t crop = {0, 0, 0, 0};
 
