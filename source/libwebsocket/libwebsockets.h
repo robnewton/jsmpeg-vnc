@@ -1,5 +1,5 @@
 /*
- * lwss - small server side websockets and web server implementation
+ * libwebsockets - small server side websockets and web server implementation
  *
  * Copyright (C) 2010-2016 Andy Green <andy@warmcat.com>
  *
@@ -21,8 +21,8 @@
 
 /** @file */
 
-#ifndef lws_H_3060898B846849FF9F88F5DB59B5950C
-#define lws_H_3060898B846849FF9F88F5DB59B5950C
+#ifndef LIBWEBSOCKET_H_3060898B846849FF9F88F5DB59B5950C
+#define LIBWEBSOCKET_H_3060898B846849FF9F88F5DB59B5950C
 
 #ifdef __cplusplus
 #include <cstddef>
@@ -792,7 +792,7 @@ enum lws_callback_reasons {
 	 * In your handler you can use the public APIs
 	 * lws_hdr_total_length() / lws_hdr_copy() to access all of the
 	 * headers using the header enums lws_token_indexes from
-	 * lwss.h to check for and read the supported header
+	 * libwebsockets.h to check for and read the supported header
 	 * presence and content before deciding to allow the http
 	 * connection to proceed or to kill the connection. */
 	LWS_CALLBACK_SERVER_NEW_CLIENT_INSTANTIATED		= 19,
@@ -812,7 +812,7 @@ enum lws_callback_reasons {
 	 * In your handler you can use the public APIs
 	 * lws_hdr_total_length() / lws_hdr_copy() to access all of the
 	 * headers using the header enums lws_token_indexes from
-	 * lwss.h to check for and read the supported header
+	 * libwebsockets.h to check for and read the supported header
 	 * presence and content before deciding to allow the handshake
 	 * to proceed or to kill the connection. */
 	LWS_CALLBACK_OPENSSL_LOAD_EXTRA_CLIENT_VERIFY_CERTS	= 21,
@@ -829,19 +829,19 @@ enum lws_callback_reasons {
 	 * verify the validity of certificates returned by clients.  user
 	 * is the server's OpenSSL SSL_CTX* */
 	LWS_CALLBACK_OPENSSL_PERFORM_CLIENT_CERT_VERIFICATION	= 23,
-	/**< if the lwss vhost was created with the option
+	/**< if the libwebsockets vhost was created with the option
 	 * LWS_SERVER_OPTION_REQUIRE_VALID_OPENSSL_CLIENT_CERT, then this
 	 * callback is generated during OpenSSL verification of the cert
 	 * sent from the client.  It is sent to protocol[0] callback as
 	 * no protocol has been negotiated on the connection yet.
-	 * Notice that the lwss context and wsi are both NULL
+	 * Notice that the libwebsockets context and wsi are both NULL
 	 * during this callback.  See
 	 *  http://www.openssl.org/docs/ssl/SSL_CTX_set_verify.html
 	 * to understand more detail about the OpenSSL callback that
-	 * generates this lwss callback and the meanings of the
+	 * generates this libwebsockets callback and the meanings of the
 	 * arguments passed.  In this callback, user is the x509_ctx,
 	 * in is the ssl pointer and len is preverify_ok
-	 * Notice that this callback maintains lws return
+	 * Notice that this callback maintains libwebsocket return
 	 * conventions, return 0 to mean the cert is OK or 1 to fail it.
 	 * This also means that if you don't handle this callback then
 	 * the default callback action of returning 0 allows the client
@@ -1030,7 +1030,7 @@ enum lws_callback_reasons {
 	 *
 	 * See http://www.openssl.org/docs/ssl/SSL_CTX_set_verify.html
 	 * to understand more detail about the OpenSSL callback that
-	 * generates this lwss callback and the meanings of the
+	 * generates this libwebsockets callback and the meanings of the
 	 * arguments passed. In this callback, user is the x509_ctx,
 	 * in is the ssl pointer and len is preverify_ok.
 	 *
@@ -1170,7 +1170,7 @@ struct lws_ext_option_arg {
  *	callbacks during the connection lifetime to allow the extension to
  *	operate on websocket data and manage itself.
  *
- *	lwss takes care of allocating and freeing "user" memory for
+ *	Libwebsockets takes care of allocating and freeing "user" memory for
  *	each active extension on each connection.  That is what is pointed to
  *	by the user parameter.
  *
@@ -1626,7 +1626,7 @@ struct lws_context_creation_info {
 	const char *ssl_private_key_password;
 	/**< VHOST: NULL or the passphrase needed for the private key */
 	const char *ssl_cert_filepath;
-	/**< VHOST: If lwss was compiled to use ssl, and you want
+	/**< VHOST: If libwebsockets was compiled to use ssl, and you want
 	 * to listen using SSL, set to the filepath to fetch the
  	 * server cert from, otherwise NULL for unencrypted */
 	const char *ssl_private_key_filepath;
@@ -1657,7 +1657,7 @@ struct lws_context_creation_info {
  *		pointer using lws_context_user */
 	int ka_time;
 	/**< CONTEXT: 0 for no TCP keepalive, otherwise apply this keepalive
-	 * timeout to all lws sockets, client or server */
+	 * timeout to all libwebsocket sockets, client or server */
 	int ka_probes;
 	/**< CONTEXT: if ka_time was nonzero, after the timeout expires how many
 	 * times to try to get a response from the peer before giving up
@@ -1667,9 +1667,9 @@ struct lws_context_creation_info {
 	 * attempt */
 #ifdef LWS_OPENSSL_SUPPORT
 	SSL_CTX *provided_client_ssl_ctx;
-	/**< CONTEXT: If non-null, swap out lwss ssl
+	/**< CONTEXT: If non-null, swap out libwebsockets ssl
  *		implementation for the one provided by provided_ssl_ctx.
- *		lwss no longer is responsible for freeing the context
+ *		Libwebsockets no longer is responsible for freeing the context
  *		if this option is selected. */
 #else /* maintain structure layout either way */
 	void *provided_client_ssl_ctx; /**< dummy if ssl disabled */
@@ -1718,7 +1718,7 @@ struct lws_context_creation_info {
 	/**< VHOST: optional linked list of mounts for this vhost */
 	const char *server_string;
 	/**< CONTEXT: string used in HTTP headers to identify server
- *		software, if NULL, "lwss". */
+ *		software, if NULL, "libwebsockets". */
 	unsigned int pt_serv_buf_size;
 	/**< CONTEXT: 0 = default of 4096.  This buffer is used by
 	 * various service related features including file serving, it
@@ -3596,7 +3596,7 @@ lws_rx_flow_allow_all_protocol(const struct lws_context *context,
  *
  *	This function is intended to be called from the callback if the
  *  user code is interested in "complete packets" from the client.
- *  lwss just passes through payload as it comes and issues a buffer
+ *  libwebsockets just passes through payload as it comes and issues a buffer
  *  additionally when it hits a built-in limit.  The LWS_CALLBACK_RECEIVE
  *  callback handler can use this API to find out if the buffer it has just
  *  been given is the last piece of a "complete packet" from the client --

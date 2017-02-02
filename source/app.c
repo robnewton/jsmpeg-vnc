@@ -123,6 +123,10 @@ int app_on_http_req(app_t *self, lws *socket, char *request) {
 		lws_serve_http_file(socket, "client/jsmpg-vnc.js", "text/javascript; charset=utf-8", NULL, NULL);
 		return true;
 	}
+	else if (strcmp(request, "/greenscreen.mp4") == 0) {
+		lws_serve_http_file(socket, "client/greenscreen.mp4", "video/mp4", NULL, NULL);
+		return true;
+	}
 	return false;
 }
 

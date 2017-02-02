@@ -49,7 +49,7 @@ server_t *server_create(int port, size_t buffer_size, int use_ssl) {
 	self->port = port;
 	self->clients = NULL;
 
-	lws_set_log_level(LLL_ERR | LLL_WARN, NULL);
+	lws_set_log_level(LLL_ERR | LLL_WARN | LLL_NOTICE | LLL_INFO | LLL_DEBUG | LLL_CLIENT | LLL_PARSER | LLL_HEADER, NULL);
 
 	struct lws_context_creation_info info = { 0 };
 	info.port = port;
@@ -60,6 +60,7 @@ server_t *server_create(int port, size_t buffer_size, int use_ssl) {
 	info.ssl_cert_filepath = NULL;
 	info.ssl_private_key_filepath = NULL;
 	if (use_ssl) {
+		info.options |= LWS_SERVER_OPTION_DO_SSL_GLOBAL_INIT;
 		info.ssl_cert_filepath = "jsmpeg-vnc.pem";
 		info.ssl_private_key_filepath = "jsmpeg-vnc.key.pem";
 		//info.ssl_ca_filepath = "jsmpeg-vnc.crt";

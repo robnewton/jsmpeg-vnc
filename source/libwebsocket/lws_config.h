@@ -6,7 +6,7 @@
 	#endif
 #endif
 
-#define LWS_INSTALL_DATADIR "C:/Program Files/lwss/share"
+#define LWS_INSTALL_DATADIR "C:/Program Files/libwebsockets/share"
 
 /* Define to 1 to use wolfSSL/CyaSSL as a replacement for OpenSSL.
  * LWS_OPENSSL_SUPPORT needs to be set also for this to work. */
@@ -24,7 +24,7 @@
 /* #undef LWS_WITH_PLUGINS */
 /* #undef LWS_WITH_NO_LOGS */
 
-/* The lws version */
+/* The Libwebsocket version */
 #define LWS_LIBRARY_VERSION "2.1.0"
 
 #define LWS_LIBRARY_VERSION_MAJOR 2
@@ -78,10 +78,10 @@
 /* If we should compile with MinGW support */
 /* #undef LWS_MINGW_SUPPORT */
 
-/* Use the BSD getifaddrs that comes with lws, for uclibc support */
+/* Use the BSD getifaddrs that comes with libwebsocket, for uclibc support */
 #define LWS_BUILTIN_GETIFADDRS
 
-/* use SHA1() not internal lws_SHA1 */
+/* use SHA1() not internal libwebsockets_SHA1 */
 /* #undef LWS_SHA1_USE_OPENSSL_NAME */
 
 /* SSL server using ECDH certificate */
